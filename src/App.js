@@ -32,8 +32,9 @@ function App() {
 
   return (
     <Router>
+      <TopBar />
       <Switch>
-        <Route path="/" component={Login}/>
+        <Route path="/" exact component={Login}/>
         <Route path='/user/:id' component={UserPage}/>
       </Switch>
     </Router>

@@ -1,5 +1,6 @@
 import React from  'react';
 import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react';
+import { withRouter } from 'react-router-dom';
 
 
 export default class Login extends React.Component {
@@ -13,7 +14,15 @@ export default class Login extends React.Component {
 
 
     handleSubmit = () => {
-        console.log(this.state.user, this.state.pass);
+        /*
+        fetch to login - if login success then retrieve uesr id.
+        use the user id to navigate to the correct user page - and then inide the page
+        in the 'componentWillMount' - retrieve all the relevant data according to the 
+        user id
+        */
+        const userId = "";
+
+        this.props.history.push(`/user/${userId}`);
     } 
     
 
