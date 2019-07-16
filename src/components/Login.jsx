@@ -20,7 +20,7 @@ export default class Login extends React.Component {
         in the 'componentWillMount' - retrieve all the relevant data according to the 
         user id
         */
-        const userId = "";
+        const userId = "15";
 
         this.props.history.push(`/user/${userId}`);
     } 

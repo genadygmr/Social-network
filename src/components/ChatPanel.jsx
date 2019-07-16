@@ -1,12 +1,11 @@
 import React from 'react';
-import { List, Image, Icon } from 'semantic-ui-react';
+import { List, Image, Icon, Header, Segment } from 'semantic-ui-react';
+import "../designes/ChatPanel.css"
 
 export default class ChatPanel extends React.Component {
 
 
-    constructor(props) {
-        super(props);
-    }
+    constructor(props) { super(props); }
 
     render() {
 
@@ -16,7 +15,7 @@ export default class ChatPanel extends React.Component {
                 <List.Content>
                     <List.Header as='a'>{contact.name}</List.Header>
                     <List.Description>
-                        <Icon inverted color={contact.isConnected ? "green" : "red"} name="circle thin"/>
+                        <Icon inverted color={contact.isConnected ? "green" : "red"} name="circle thin" />
                         <b>{contact.isConnected ? "Online" : "Offline"}</b>
                     </List.Description>
                 </List.Content>
@@ -24,9 +23,14 @@ export default class ChatPanel extends React.Component {
         ))
 
         return (
-            <List divided>
-                {contacts}
-            </List>
+            <div>
+                <Segment><Header as='h3' icon='chat' content='Chat' /></ Segment>
+                <Segment>
+                    <List divided>
+                        {contacts}
+                    </List>
+                </Segment>
+            </div>
         )
     }
 }
