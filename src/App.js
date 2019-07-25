@@ -9,7 +9,7 @@ import ChatPanel from "./components/ChatPanel";
 import UserPage from "./components/UserPage";
 import TopBar from "./components/TopBar";
 import Login from "./components/Login";
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route, PrivateRoute } from 'react-router-dom'
 function App() {
 
   const contacts = [
@@ -36,7 +36,7 @@ function App() {
       <div className="userPage">
         <Switch>
           <Route path="/" exact component={Login} />
-          <Route path='/user/:id' component={UserPage} />
+          <PrivateRoute path='/user/:id' component={UserPage} />
         </Switch>
       </div>
     </Router>
