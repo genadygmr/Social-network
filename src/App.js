@@ -1,15 +1,13 @@
 import 'semantic-ui-less/semantic.less';
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import FeedBox from "./components/FeedBox";
-import FeedList from "./components/FeedList";
-import InfoPanel from "./components/InfoPanel"
-import ChatPanel from "./components/ChatPanel";
 import UserPage from "./components/UserPage";
 import TopBar from "./components/TopBar";
 import Login from "./components/Login";
-import { BrowserRouter as Router, Switch, Route, PrivateRoute } from 'react-router-dom'
+import SignUp from "./components/SignUp"
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+
+
 function App() {
 
   const contacts = [
@@ -36,7 +34,8 @@ function App() {
       <div className="userPage">
         <Switch>
           <Route path="/" exact component={Login} />
-          <PrivateRoute path='/user/:id' component={UserPage} />
+          <Route path="/signup" component={SignUp} />
+          <Route path='/user/:id' component={UserPage} />
         </Switch>
       </div>
     </Router>
