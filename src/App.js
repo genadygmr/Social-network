@@ -11,23 +11,6 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 function App() {
 
-  const contacts = [
-    {
-      image: 'https://proxy.duckduckgo.com/iu/?u=http%3A%2F%2Floganfuneralchapel.com%2Fwp-content%2Fuploads%2F2017%2F01%2Fgeneric-profile-avatar_352864-250x250.jpg&f=1',
-      name: "Genady",
-      isConnected: true
-    },
-    {
-      image: 'https://proxy.duckduckgo.com/iu/?u=http%3A%2F%2Floganfuneralchapel.com%2Fwp-content%2Fuploads%2F2017%2F01%2Fgeneric-profile-avatar_352864-250x250.jpg&f=1',
-      name: "Tammy",
-      isConnected: true
-    },
-    {
-      image: 'https://proxy.duckduckgo.com/iu/?u=http%3A%2F%2Floganfuneralchapel.com%2Fwp-content%2Fuploads%2F2017%2F01%2Fgeneric-profile-avatar_352864-250x250.jpg&f=1',
-      name: "Ido",
-      isConnected: false
-    }
-  ]
 
   return (
     <Router>
@@ -36,7 +19,7 @@ function App() {
         <Switch>
           <Route path="/" exact component={Login} />
           <Route Strict path="/signup" component={SignUp} />
-          <Route Strict path='/user/:id' component={UserPage} />
+          {/* <Route Strict path='/user/:id' component={UserPage} /> */}
           <Route Strict path='/user/:id/additional-info' component={AdvancedSignUp} />
         </Switch>
       </div>

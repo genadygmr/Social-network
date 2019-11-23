@@ -1,18 +1,18 @@
 import React from 'react';
-import { Button, Form, Grid, Header, Image, Message, Segment, Input, Select } from 'semantic-ui-react';
+import { Button, Form, Grid, Header, Segment, Select } from 'semantic-ui-react';
 import ImageUploader from 'react-images-upload';
 
-export default class AdvancedSignUo extends React.Component {
+export default class AdvancedSignUp extends React.Component {
 
     state = {
-        image: "",
-        genaer: "",
         firstName: "",
         middleName: "",
         lastName: "",
+        email: "",
         address: "",
         workPlace: "",
-        title: ""
+        title: "",
+        image: ""
     };
 
 
@@ -22,12 +22,14 @@ export default class AdvancedSignUo extends React.Component {
         this.setState({ image })
     }
 
-    comlete = () => {
+    handleSubmit = () => {
+
+        console.log(this.state);
         // TODO: sand all the data to the server
         // get user id back
         //navigate to the users homepage
-        let id = 1;
-        this.props.history.push(`user/${id}`);
+        // let id = 1;
+        // this.props.history.push(`user/${id}`);
     }
 
 
@@ -45,12 +47,12 @@ export default class AdvancedSignUo extends React.Component {
                     <Header as='h2' color='teal' textAlign='center'>
                         Additional info
                     </Header>
-                    <Form size='large'>
+                    <Form size='large' onSubmit={this.handleSubmit}>
                         <Segment stacked>
                             <Form.Group>
-                                <Form.Input label="First Name" placeholder="First Name" />
-                                <Form.Input label="Middle Name" placeholder="Middle Name" />
-                                <Form.Input label="Last Name" placeholder="Last Name" />
+                                <Form.Input name="firstName" label="First Name" placeholder="First Name" onChange={this.handleChange} />
+                                <Form.Input name="middleName" label="Middle Name" placeholder="Middle Name" onChange={this.handleChange} />
+                                <Form.Input name="lastName" label="Last Name" placeholder="Last Name" onChange={this.handleChange} />
                                 <Form.Input
                                     control={Select}
                                     options={genderOptions}
@@ -62,9 +64,10 @@ export default class AdvancedSignUo extends React.Component {
                                 />
                             </Form.Group>
                             <Form.Group>
-                                <Form.Input label="Address" placeholder="Address" />
-                                <Form.Input label="Work Place" placeholder="Work Place" />
-                                <Form.Input label="Title" placeholder="Title" />
+                                <Form.Input name="email" label="Email" placeholder="Email" onChange={this.handleChange} />
+                                <Form.Input name="address" label="Address" placeholder="Address" onChange={this.handleChange} />
+                                <Form.Input name="workPlace" label="Work Place" placeholder="Work Place" onChange={this.handleChange} />
+                                <Form.Input name="title" label="Title" placeholder="Title" onChange={this.handleChange} />
                             </Form.Group>
                             <ImageUploader
                                 withIcon={false}
@@ -73,7 +76,7 @@ export default class AdvancedSignUo extends React.Component {
                                 imgExtension={['.jpg', '.gif', '.png', '.gif']}
                                 maxFileSize={5242880}
                             />
-                            <Button color='teal' size='large' onClick={this.comlete}>
+                            <Button color='teal' size='large'>
                                 Complete Registration
                             </Button>
                         </Segment>

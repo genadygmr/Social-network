@@ -18,18 +18,26 @@ export default class SignUp extends React.Component {
     handleChange = (e, { name, value }) => this.setState({ [name]: value });
 
     handleRegister = async () => {
-        let res = await fetch("https://localhost:44318/api/Account/register", {
+
+        console.log({
+            UserName: this.state.user,
+            PassWord: this.state.pass,
+            ConfirmPassword: this.state.confirmpass
+        });
+        let res = await fetch("https://localhost:5001/api/users/register", {
             headers: { "Content-type": "application/json" },
             method: "POST",
             body: JSON.stringify({
                 UserName: this.state.user,
-                Password: this.state.pass,
+                PassWord: this.state.pass,
                 ConfirmPassword: this.state.confirmpass
             })
         });
 
+
         if (res.ok) {
-            let body = await res.json()
+            let body = await res.json();
+            console.log(body)      
             // perform token and then move to the next page
             console.log(`Registered succenfully`);
             this.props.history.push(`user/${body.id}/additional-info`);
