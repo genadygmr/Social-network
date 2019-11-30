@@ -12,7 +12,9 @@ export default class AdvancedSignUp extends React.Component {
         address: "",
         workPlace: "",
         title: "",
-        image: ""
+        image: "",
+        id: "",
+        gender: ""
     };
 
 
@@ -22,14 +24,32 @@ export default class AdvancedSignUp extends React.Component {
         this.setState({ image })
     }
 
-    handleSubmit = () => {
+    handleSubmit = async () => {
 
-        console.log(this.state);
-        // TODO: sand all the data to the server
-        // get user id back
-        //navigate to the users homepage
-        // let id = 1;
-        // this.props.history.push(`user/${id}`);
+        let res = await fetch('https://localhost:5001/api/users/addusersdata', {
+            headers: { "Content-type": "application/json" },
+            method: "POST",
+            body: JSON.stringify({
+                UserId: this.state.id,
+                FirstName: this.state.firstName,
+                MiddleName: this.state.middleName,
+                LastName: this.state.lastName,
+                Email: this.state.email,
+                Image: this.state.image,
+                Gender: this.state.gender,
+                WorkPlalace: this.state.workPlace,
+                Title: this.state.title
+            })
+        })
+        if(res.ok) {
+            console.log(this.state);
+            this.props.history.push({
+                pathname: `user/${id}`,
+                state: { id }
+            });
+        } else { alert("failed"); }
+        
+
     }
 
 

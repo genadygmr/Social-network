@@ -40,7 +40,10 @@ export default class SignUp extends React.Component {
             console.log(body)      
             // perform token and then move to the next page
             console.log(`Registered succenfully`);
-            this.props.history.push(`user/${body.id}/additional-info`);
+            this.props.history.push({
+                pathname: `user/${body.id}/additional-info`,
+                state: {id: body.id}
+            });
         } else {
             // TODO: provide a better error message corresponding to the response from the server
             alert("There was error signing up")

@@ -18,9 +18,9 @@ function App() {
       <div className="userPage">
         <Switch>
           <Route path="/" exact component={Login} />
-          <Route Strict path="/signup" component={SignUp} />
-          {/* <Route Strict path='/user/:id' component={UserPage} /> */}
-          <Route Strict path='/user/:id/additional-info' component={AdvancedSignUp} />
+          <Route exact path="/signup" component={SignUp} />
+          <Route exact path='/user/:id' component={UserPage} />
+          <Route exact path='/user/:id/additional-info' component={AdvancedSignUp} />
         </Switch>
       </div>
     </Router>
