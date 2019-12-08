@@ -13,7 +13,7 @@ export default class AdvancedSignUp extends React.Component {
         workPlace: "",
         title: "",
         image: "",
-        id: "",
+        id: this.props.location.state.id,
         gender: ""
     };
 
@@ -21,31 +21,36 @@ export default class AdvancedSignUp extends React.Component {
     handleChange = (e, { name, value }) => this.setState({ [name]: value });
 
     onDrop = (image) => {
-        this.setState({ image })
+        this.setState({ image: image[0] })
     }
 
     handleSubmit = async () => {
 
+        const dataToSend = {
+            UserId: this.state.id,
+            FirstName: this.state.firstName,
+            MiddleName: this.state.middleName,
+            LastName: this.state.lastName,
+            Email: this.state.email,
+            ImageFile: this.state.image,
+            Image: this.state.image,
+            Gender: this.state.gender,
+            WorkPlalace: this.state.workPlace,
+            Title: this.state.title
+        }
+        let form = new FormData();
+        for (let key in dataToSend) {
+            form.append(key, dataToSend[key])
+        }
         let res = await fetch('https://localhost:5001/api/users/addusersdata', {
-            headers: { "Content-type": "application/json" },
             method: "POST",
-            body: JSON.stringify({
-                UserId: this.state.id,
-                FirstName: this.state.firstName,
-                MiddleName: this.state.middleName,
-                LastName: this.state.lastName,
-                Email: this.state.email,
-                Image: this.state.image,
-                Gender: this.state.gender,
-                WorkPlalace: this.state.workPlace,
-                Title: this.state.title
-            })
+            body: form
         })
         if(res.ok) {
             console.log(this.state);
             this.props.history.push({
-                pathname: `user/${id}`,
-                state: { id }
+                pathname: `user/${this.state.id}/homepage`,
+                state: { id: this.state.id }
             });
         } else { alert("failed"); }
         
