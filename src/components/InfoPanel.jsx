@@ -7,6 +7,17 @@ export default class InfoPanel extends React.Component {
         super(props);
     }
 
+    setGender = () => {
+        let iconName="";
+        if(this.props.gender === "Male") iconName = "man";
+        else if(this.props.gender === "Female") iconName="woman"
+        else iconName = "other gender"
+
+        return <Icon name={iconName} />
+        
+        
+    }
+
     render() {
         const extraContent = (
             <div>
@@ -15,12 +26,16 @@ export default class InfoPanel extends React.Component {
                     {this.props.friendsCount} Friends
                 </a>
                 <div>
-                    <Icon name='home' />
-                    {this.props.address}
+                    <Icon name='mail' />
+                    {this.props.mail}
                 </div>
                 <div>
-                    <Icon name='birthday cake' />
-                    {this.props.birhDate}
+                    <Icon name='industry' />
+                    {this.props.title} at {this.props.workPlace}
+                </div>
+                <div>
+                    {this.setGender()}
+                    {this.props.gender}
                 </div>
             </div>
         )

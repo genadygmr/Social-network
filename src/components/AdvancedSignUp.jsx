@@ -13,10 +13,17 @@ export default class AdvancedSignUp extends React.Component {
         workPlace: "",
         title: "",
         image: "",
-        id: this.props.location.state.id,
+        id: "",
         gender: ""
     };
 
+
+    componentDidMount = () => {
+
+        const { id } = this.props.match.params;
+        this.setState({id})
+
+    }
 
     handleChange = (e, { name, value }) => this.setState({ [name]: value });
 
@@ -49,7 +56,7 @@ export default class AdvancedSignUp extends React.Component {
         if(res.ok) {
             console.log(this.state);
             this.props.history.push({
-                pathname: `user/${this.state.id}/homepage`,
+                pathname: `homepage`,
                 state: { id: this.state.id }
             });
         } else { alert("failed"); }
