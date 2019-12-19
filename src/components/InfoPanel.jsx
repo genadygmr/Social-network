@@ -9,8 +9,8 @@ export default class InfoPanel extends React.Component {
 
     setGender = () => {
         let iconName="";
-        if(this.props.gender === "Male") iconName = "man";
-        else if(this.props.gender === "Female") iconName="woman"
+        if(this.props.gender === "male") iconName = "man";
+        else if(this.props.gender === "female") iconName="woman"
         else iconName = "other gender"
 
         return <Icon name={iconName} />
