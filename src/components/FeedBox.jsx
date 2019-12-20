@@ -24,6 +24,4 @@ export default class FeedBox extends React.Component {
             </Feed.Event>
         )
     }
-
-
 }
