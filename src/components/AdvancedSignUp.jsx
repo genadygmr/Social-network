@@ -13,17 +13,9 @@ export default class AdvancedSignUp extends React.Component {
         workPlace: "",
         title: "",
         image: "",
-        id: "",
+        id: this.props.location.state.id,
         gender: ""
     };
-
-
-    componentDidMount = () => {
-
-        const { id } = this.props.match.params;
-        this.setState({id})
-
-    }
 
     handleChange = (e, { name, value }) => this.setState({ [name]: value });
 

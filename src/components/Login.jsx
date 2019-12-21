@@ -19,14 +19,14 @@ class Login extends React.Component {
       UserName: this.state.user,
       PassWord: this.state.pass
     };
-    let res = await fetch("https://localhost:5001/login", {
+    let res = await fetch("https://localhost:5001/api/login", {
       headers: { "Content-type": "application/json" },
       method: "POST",
       body: JSON.stringify(jsonBody)
     });
     if (res.ok) {
       res = await res.json();
-      localStorage.setItem("token", res.access_token);
+      localStorage.setItem("username", this.state.user);
 
       await this.goToPersonalPage(res.Id);
     } else { console.error("Could not get authorization token"); }
@@ -35,7 +35,10 @@ class Login extends React.Component {
   goToPersonalPage = async (id) => {
     // load all user data for his page
     // hadle here the moving to the personal pages after the login
-    this.props.history.push(`user/${id}`);
+    this.props.history.push({
+      pathname: 'user/homepage',
+      state: {id}
+    });
   }
 
 
