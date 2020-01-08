@@ -34,6 +34,7 @@ export default class SignUp extends React.Component {
             })
         });
 
+        console.log(res)
 
         if (res.ok) {
             let body = await res.json();
@@ -42,6 +43,7 @@ export default class SignUp extends React.Component {
             console.log(`Registered succenfully`);
             this.props.history.push({
                 pathname: `user/${body.id}/additional-info`,
+                state: {id: body.id}
             });
         } else {
             // TODO: provide a better error message corresponding to the response from the server

@@ -11,7 +11,8 @@ export default class FeedBox extends React.Component {
                 </Feed.Label>
                 <Feed.Content>
                     <Feed.Summary>
-                        {this.props.summery}
+                        <Feed.User>{this.props.usenrname}</Feed.User>{this.props.summery}
+                        <Feed.Date>{this.props.page}</Feed.Date>
                     </Feed.Summary>
                     <Feed.Extra>
                         {this.props.extra}
