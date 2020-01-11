@@ -25,11 +25,12 @@ class Login extends React.Component {
       body: JSON.stringify(jsonBody)
     });
     if (res.ok) {
-      res = await res.json();
+      let responseobj = await res.json();
       localStorage.setItem("username", this.state.user);
-      localStorage.setItem("id", res.id)
+      console.log("res: " + responseobj.Id)
+      localStorage.setItem("id", responseobj.Id)
 
-      await this.goToPersonalPage(res.Id);
+      await this.goToPersonalPage(responseobj.Id);
     } else { console.error("Could not get authorization token"); }
   }
 

@@ -18,16 +18,22 @@ export default class FeedList extends React.Component {
 
     handleNewPost = async () => {
         // api request to add new post to the page
-        let res = await fetch("https://localhost:5001/api/post", {
+        let res = await fetch("https://localhost:5001/api/posts", {
+            headers: { "Content-type": "application/json" },
+            method: "POST",
             body: JSON.stringify({
-                id: localStorage.getItem("id"),
-                post: this.state.newPost
+                FromId: localStorage.getItem("id"),
+                UserId: this.props.id,
+                Content: this.state.newPost
             })
         });
-        let response = await res.json()
-        // get the updated list
-        if(response.ok()) {
-            // fetch all the feed messages
+        if(res.ok) {
+            
+            let fetchRes = await fetch(`https://localhost:5001/api/posts?id=${this.props.id}`);
+            if(fetchRes.ok) {
+                let posts = await fetchRes.json();
+                this.setState({feedData: posts.reverse()})
+            }
         }
     }
 
@@ -41,15 +47,15 @@ export default class FeedList extends React.Component {
                         icon='edit'
                         primary
                         floated='right'
-                        onClick={() => this.handleNewPost} />
+                        onClick={this.handleNewPost} />
                 </Form>
                 <Feed>
                     {this.state.feedData.map(data =>
                         <FeedBox
                             image={data.image}
-                            summery={data.summeryText}
-                            extra={data.extraText}
-                            likes={data.likes}
+                            summery={data.name}
+                            extra={data.content}
+                            likes={3}
                         />
                     )}
                 </Feed>

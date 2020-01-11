@@ -2,7 +2,7 @@ import React from 'react';
 import FeedList from './FeedList';
 import InfoPanel from './InfoPanel';
 import ChatPanel from './ChatPanel';
-import { Grid } from 'semantic-ui-react';
+import { Grid, Modal, Button } from 'semantic-ui-react';
 import TopBar from "./TopBar";
 
 export default class UserPage extends React.Component {
@@ -13,7 +13,6 @@ export default class UserPage extends React.Component {
     }
 
     componentDidMount = async () => {
-        console.log(1)
         const userData = await this.getUserData(this.state.id)
         this.setState({ userData })
     }
@@ -30,10 +29,28 @@ export default class UserPage extends React.Component {
     }
 
     changePage = async (id) => {
-        console.log(1)
-        console.log(`This is the id: ${id}`);
         const data = await this.getUserData(id)
         this.setState({id, userData: data})
+    }
+
+    feedList = async () => {
+        if (this.state.id === localStorage.getItem("id")) {
+            return <FeedList id={this.state.id}/>
+        } else {
+            return <Modal>
+                <Modal.Header>Add Friend</Modal.Header>
+                <Modal.Content>To view User's feed, add him to friends</Modal.Content>
+                <Modal.Actions>
+                    <Button
+                        positive
+                        icon='add user'
+                        labelPosition='right'
+                        content='Yes'
+                        onClick={} // function to add a friend
+                    />
+                </Modal.Actions>
+            </Modal>
+        }
     }
 
 
@@ -52,7 +69,7 @@ export default class UserPage extends React.Component {
                         />
                     </Grid.Column>
                     <Grid.Column width={9}>
-                        <FeedList />
+                        <FeedList id={this.state.id}/>
                     </Grid.Column>
                     <Grid.Column width={3}>
                         {/* <ChatPanel contacts={this.state.contacts}/> */}
