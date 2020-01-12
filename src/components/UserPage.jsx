@@ -2,19 +2,27 @@ import React from 'react';
 import FeedList from './FeedList';
 import InfoPanel from './InfoPanel';
 import ChatPanel from './ChatPanel';
-import { Grid, Modal, Button } from 'semantic-ui-react';
+import { Grid, Modal, Button, GridRow } from 'semantic-ui-react';
 import TopBar from "./TopBar";
 
 export default class UserPage extends React.Component {
 
     state = {
         id: this.props.location.state.id,
-        userData: {}
+        userData: {},
+        friends: [],
+        modalOpen: false
     }
 
     componentDidMount = async () => {
         const userData = await this.getUserData(this.state.id)
         this.setState({ userData })
+        let res = await fetch(`https://localhost:5001/api/friends?id=${this.state.id}`);
+        if (res.ok) {
+            let friends = await res.json();
+            console.log("this is the firenmdlist: " + friends)
+            this.setState(friends)
+        }
     }
 
 
@@ -30,26 +38,52 @@ export default class UserPage extends React.Component {
 
     changePage = async (id) => {
         const data = await this.getUserData(id)
-        this.setState({id, userData: data})
+        this.setState({ id, userData: data })
     }
 
-    feedList = async () => {
-        if (this.state.id === localStorage.getItem("id")) {
-            return <FeedList id={this.state.id}/>
+    checkFriend = async () => {
+        let res = await fetch(`https://localhost:5001/api/friends?id=${localStorage.getItem("id")}`);
+        if (res.ok) {
+            let friends = await res.json();
+            return friends.includes(this.state.id);
+        }
+        return false;
+    }
+
+    sendFriendRequest = async () => {
+        await fetch(`https://localhost:5001/api/friends/request?id=${localStorage.getItem("id")}&targetId=${this.state.id}`, {
+            method: "POST"
+        });
+        this.setState({modalOpen: false})
+    }
+
+    feedList = () => {
+        let isFriend = this.state.friends.includes(localStorage.getItem)
+        if (this.state.id == localStorage.getItem("id") || isFriend) {
+            return (
+                <Grid.Column width={9}>
+                    <FeedList id={this.state.id} />
+                </Grid.Column>
+            )
         } else {
-            return <Modal>
-                <Modal.Header>Add Friend</Modal.Header>
-                <Modal.Content>To view User's feed, add him to friends</Modal.Content>
-                <Modal.Actions>
-                    <Button
-                        positive
-                        icon='add user'
-                        labelPosition='right'
-                        content='Yes'
-                        onClick={} // function to add a friend
-                    />
-                </Modal.Actions>
-            </Modal>
+            console.log("sfsdfsdsddsf")
+            return (
+                <Grid.Column width={9}>
+                    <Modal open={this.state.modalOpen} trigger={<Button onClick={() => this.setState({modalOpen: true})}> Add Firend</Button>}>
+                        <Modal.Header>Add Friend</Modal.Header>
+                        <Modal.Content>To view User's feed, add him to friends</Modal.Content>
+                        <Modal.Actions>
+                            <Button
+                                positive
+                                icon='add user'
+                                labelPosition='right'
+                                content='Add as friend'
+                                onClick={this.sendFriendRequest}
+                            />
+                        </Modal.Actions>
+                    </Modal>
+                </Grid.Column>
+            )
         }
     }
 
@@ -68,9 +102,7 @@ export default class UserPage extends React.Component {
                             gender={this.state.userData.Gender}
                         />
                     </Grid.Column>
-                    <Grid.Column width={9}>
-                        <FeedList id={this.state.id}/>
-                    </Grid.Column>
+                    {this.feedList()}
                     <Grid.Column width={3}>
                         {/* <ChatPanel contacts={this.state.contacts}/> */}
                     </Grid.Column>

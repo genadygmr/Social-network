@@ -20,6 +20,7 @@ export default class FeedBox extends React.Component {
                     <Feed.Meta>
                         <Icon name="like" />
                         {this.props.likes} Likes
+                        <Icon name="trash" />
                     </Feed.Meta>
                 </Feed.Content>
             </Feed.Event>
