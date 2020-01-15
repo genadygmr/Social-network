@@ -48,7 +48,7 @@ class TopBar extends React.Component {
                 <Item.Content>
                     <Item.Header>
                         {friend.name}
-                        {buttons}
+                        {() => buttons(friend.requestId)}
                     </Item.Header>
                 </Item.Content>
             </Item>
