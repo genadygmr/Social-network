@@ -20,8 +20,7 @@ export default class UserPage extends React.Component {
         let res = await fetch(`https://localhost:5001/api/friends?id=${this.state.id}`);
         if (res.ok) {
             let friends = await res.json();
-            console.log("this is the firenmdlist: " + friends)
-            this.setState(friends)
+            this.setState({friends})
         }
     }
 
@@ -66,7 +65,7 @@ export default class UserPage extends React.Component {
                 </Grid.Column>
             )
         } else {
-            console.log("sfsdfsdsddsf")
+
             return (
                 <Grid.Column width={9}>
                     <Modal open={this.state.modalOpen} trigger={<Button onClick={() => this.setState({modalOpen: true})}> Add Firend</Button>}>
@@ -90,9 +89,10 @@ export default class UserPage extends React.Component {
 
 
     render() {
+        console.log(this.state)
         return (
             <div>
-                <TopBar changePage={this.changePage} />
+                <TopBar changePage={this.changePage} friends={this.state.friends} updateFriends={(friends) => this.setState({friends})}/>
                 <Grid>
                     <Grid.Column width={4}>
                         <InfoPanel

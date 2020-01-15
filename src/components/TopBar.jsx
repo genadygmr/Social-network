@@ -1,15 +1,10 @@
 import React from 'react';
 import _ from 'lodash';
 import faker from 'faker';
-import { Search, Menu, Input, Icon } from 'semantic-ui-react';
+import { Search, Menu, Tab, Button, Icon, Dropdown, Modal, Item } from 'semantic-ui-react';
 import { withRouter } from 'react-router'
 
 
-const source = _.times(5, () => ({
-    image: faker.internet.avatar(),
-    title: faker.name.firstName() + " " + faker.name.lastName(),
-    id: 5
-}))
 
 const initialState = {
     isLoading: false,
@@ -17,15 +12,55 @@ const initialState = {
     value: ''
 }
 
+
 class TopBar extends React.Component {
+
 
     constructor(props) {
         super(props)
     }
 
+    reactToFriendRequest = (e, data) => {
+        if (e.target.id == "accept") {
+            // send accept
+        }
+        if (e.target.id=="reject") {
+            // send reject
+        }
+    }
 
 
-    componentDidMount = () => console.log(JSON.stringify(source))
+    friendsList = (pending = false) => {
+        let res = this.props.friends
+        console.log(res)
+        let buttons;
+        if (pending) {
+            buttons = (requestId) => (
+                <span>
+                    <Button id="accept" requestId={requestId} onClick={this.reactToFriendRequest}>Accept</Button>
+                    <Button id="reject" requestId={requestId} onClick={this.reactToFriendRequest}>Reject</Button>
+                </span>
+            )
+        }
+         return res.map((friend) => (
+            <Item>
+                <Item.Image size="tiny" src={friend.image}/>
+                <Item.Content>
+                    <Item.Header>
+                        {friend.name}
+                        {buttons}
+                    </Item.Header>
+                </Item.Content>
+            </Item>
+        ))
+    }
+
+
+    panes = [
+        { menuItem: 'Firends', render: () => <Tab.Pane>{this.friendsList(true)}</Tab.Pane> },
+        { menuItem: 'Friends suggestions', render: () => <Tab.Pane>{this.friendsList()}</Tab.Pane> },
+    ]
+
 
     state = initialState
 
@@ -65,7 +100,15 @@ class TopBar extends React.Component {
                     />
                 </Menu.Item>
                 <Menu.Item position="right">
-                    <Icon name="dropdown" />
+                    <Dropdown text="Menu">
+                        <Dropdown.Menu>
+                            <Modal trigger={<Button>Friends</Button>}>
+                                <Modal.Content>
+                                    <Tab panes={this.panes} />
+                                </Modal.Content>
+                            </Modal>
+                        </Dropdown.Menu>
+                    </Dropdown>
                 </Menu.Item>
             </Menu>
         )
