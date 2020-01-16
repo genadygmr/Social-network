@@ -28,12 +28,25 @@ export default class FeedList extends React.Component {
             })
         });
         if(res.ok) {
-            
-            let fetchRes = await fetch(`https://localhost:5001/api/posts?id=${this.props.id}`);
-            if(fetchRes.ok) {
-                let posts = await fetchRes.json();
-                this.setState({feedData: posts.reverse()})
-            }
+            await this.updatePostList()
+        }
+    }
+
+    updatePostList = async () => {
+        let fetchRes = await fetch(`https://localhost:5001/api/posts?id=${this.props.id}`);
+        if(fetchRes.ok) {
+            let posts = await fetchRes.json();
+            this.setState({feedData: posts.reverse()})
+        }
+    }
+
+    removePost = async (id) => {
+        let res = await fetch(`https://localhost:5001/api/posts?id=${id}`, {
+            method: "DELETE"
+        });
+
+        if (res.ok) {
+            await this.updatePostList()
         }
     }
 
@@ -56,6 +69,8 @@ export default class FeedList extends React.Component {
                             summery={data.name}
                             extra={data.content}
                             likes={3}
+                            remove={this.removePost} 
+                            id={data.postId}
                         />
                     )}
                 </Feed>

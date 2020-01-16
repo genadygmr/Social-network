@@ -1,5 +1,5 @@
 import React from 'react';
-import { Feed, Icon } from "semantic-ui-react";
+import { Feed, Icon, Button } from "semantic-ui-react";
 
 export default class FeedBox extends React.Component {
 
@@ -20,7 +20,9 @@ export default class FeedBox extends React.Component {
                     <Feed.Meta>
                         <Icon name="like" />
                         {this.props.likes} Likes
-                        <Icon name="trash" />
+                        <Button icon onClick={() => this.props.remove(this.props.id)}>
+                            <Icon name="trash" />
+                        </Button>
                     </Feed.Meta>
                 </Feed.Content>
             </Feed.Event>

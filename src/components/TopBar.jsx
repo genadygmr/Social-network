@@ -9,7 +9,7 @@ import { withRouter } from 'react-router'
 const initialState = {
     isLoading: false,
     results: [],
-    value: ''
+    value: '',
 }
 
 
@@ -20,45 +20,54 @@ class TopBar extends React.Component {
         super(props)
     }
 
-    reactToFriendRequest = (e, data) => {
-        if (e.target.id == "accept") {
-            // send accept
-        }
-        if (e.target.id=="reject") {
-            // send reject
+    reactToFriendRequest = async (id, status) => {
+        console.log(`This is the id: ${id}`)
+        let result = await fetch(`https:/localhost:5001/api/friends?id=${id}&connectionStatus=${status}`, {
+            method: "PUT"
+        })
+
+        if (result.ok) {
+            await this.props.updateFriends()
         }
     }
 
 
     friendsList = (pending = false) => {
-        let res = this.props.friends
-        console.log(res)
-        let buttons;
         if (pending) {
-            buttons = (requestId) => (
-                <span>
-                    <Button id="accept" requestId={requestId} onClick={this.reactToFriendRequest}>Accept</Button>
-                    <Button id="reject" requestId={requestId} onClick={this.reactToFriendRequest}>Reject</Button>
-                </span>
-            )
+            return this.props.pendingFriends.map((friend) => (
+                <Item>
+                    <Item.Image size="tiny" src={friend.image} />
+                    <Item.Content>
+                        <Item.Header>
+                            {friend.name}
+                            <span>
+                                <Button id={friend.requestId} className="1" onClick={() => this.reactToFriendRequest(friend.requestid,"1")}>Accept</Button>
+                                <Button id={friend.requestId} className="2" onClick={() => this.reactToFriendRequest(friend.requestid,"2")}>Reject</Button>
+                            </span>
+                        </Item.Header>
+                    </Item.Content>
+                </Item>
+            ))
+        } else {
+            return this.props.friends.map((friend) => (
+                <Item>
+                    <Item.Image size="tiny" src={friend.image} />
+                    <Item.Content>
+                        <Item.Header>
+                            {friend.name}
+                            <span>
+                                <Button id={friend.requestId} className="1" onClick={this.reactToFriendRequest}>Remove</Button>                            </span>
+                        </Item.Header>
+                    </Item.Content>
+                </Item>
+            ))
         }
-         return res.map((friend) => (
-            <Item>
-                <Item.Image size="tiny" src={friend.image}/>
-                <Item.Content>
-                    <Item.Header>
-                        {friend.name}
-                        {() => buttons(friend.requestId)}
-                    </Item.Header>
-                </Item.Content>
-            </Item>
-        ))
     }
 
 
     panes = [
-        { menuItem: 'Firends', render: () => <Tab.Pane>{this.friendsList(true)}</Tab.Pane> },
-        { menuItem: 'Friends suggestions', render: () => <Tab.Pane>{this.friendsList()}</Tab.Pane> },
+        { menuItem: 'Firends', render: () => <Tab.Pane>{this.friendsList()}</Tab.Pane> },
+        { menuItem: 'Friends suggestions', render: () => <Tab.Pane>{this.friendsList(true)}</Tab.Pane> },
     ]
 
 

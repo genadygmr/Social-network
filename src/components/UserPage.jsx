@@ -11,16 +11,30 @@ export default class UserPage extends React.Component {
         id: this.props.location.state.id,
         userData: {},
         friends: [],
+        pendingFriends: [],
         modalOpen: false
     }
 
     componentDidMount = async () => {
         const userData = await this.getUserData(this.state.id)
         this.setState({ userData })
-        let res = await fetch(`https://localhost:5001/api/friends?id=${this.state.id}`);
+        await this.setFriends()
+        await this.setFriends(true)
+    }
+
+    setFriends = async (pending = false) => {
+        let res = "";
+        if (pending)
+            res = await fetch(`https://localhost:5001/api/friends?id=${localStorage.getItem("id")}&status=0`);
+        else res = await fetch(`https://localhost:5001/api/friends?id=${localStorage.getItem("id")}&status=1`);
+
         if (res.ok) {
-            let friends = await res.json();
-            this.setState({friends})
+            if(pending) {
+                let pendingFriends = await res.json();
+                this.setState({ pendingFriends })
+            } else {
+                let friends = await res.json();
+                this.setState({ friends })            }
         }
     }
 
@@ -53,7 +67,8 @@ export default class UserPage extends React.Component {
         await fetch(`https://localhost:5001/api/friends/request?id=${localStorage.getItem("id")}&targetId=${this.state.id}`, {
             method: "POST"
         });
-        this.setState({modalOpen: false})
+        this.setState({ modalOpen: false })
+        alert("Sent friend request")
     }
 
     feedList = () => {
@@ -68,7 +83,7 @@ export default class UserPage extends React.Component {
 
             return (
                 <Grid.Column width={9}>
-                    <Modal open={this.state.modalOpen} trigger={<Button onClick={() => this.setState({modalOpen: true})}> Add Firend</Button>}>
+                    <Modal open={this.state.modalOpen} trigger={<Button onClick={() => this.setState({ modalOpen: true })}> Add Firend</Button>}>
                         <Modal.Header>Add Friend</Modal.Header>
                         <Modal.Content>To view User's feed, add him to friends</Modal.Content>
                         <Modal.Actions>
@@ -89,10 +104,13 @@ export default class UserPage extends React.Component {
 
 
     render() {
-        console.log(this.state)
         return (
             <div>
-                <TopBar changePage={this.changePage} friends={this.state.friends} updateFriends={(friends) => this.setState({friends})}/>
+                <TopBar changePage={this.changePage}
+                    friends={this.state.friends}
+                    pendingFriends={this.state.pendingFriends}
+                    updateFriends={this.setFriends}
+                />
                 <Grid>
                     <Grid.Column width={4}>
                         <InfoPanel
