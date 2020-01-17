@@ -27,7 +27,6 @@ class Login extends React.Component {
     if (res.ok) {
       let responseobj = await res.json();
       localStorage.setItem("username", this.state.user);
-      console.log("res: " + responseobj.Id)
       localStorage.setItem("id", responseobj.Id)
 
       await this.goToPersonalPage(responseobj.Id);

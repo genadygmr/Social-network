@@ -46,7 +46,6 @@ export default class AdvancedSignUp extends React.Component {
             body: form
         })
         if(res.ok) {
-            console.log(this.state);
             this.props.history.push({
                 pathname: `homepage`,
                 state: { id: this.state.id }

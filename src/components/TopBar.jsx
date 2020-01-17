@@ -83,9 +83,6 @@ class TopBar extends React.Component {
         this.setState({ isLoading: true, value })
         let response = await fetch(`https://localhost:5001/api/users/query?query=${value}`)
         let results = await response.json();
-
-        console.log(`dsfdsfsddfs` + JSON.stringify(results))
-
         this.setState({ isLoading: false, results })
     }
 
