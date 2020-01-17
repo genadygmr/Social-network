@@ -21,7 +21,6 @@ class TopBar extends React.Component {
     }
 
     reactToFriendRequest = async (id, status) => {
-        console.log(`This is the id: ${id}`)
         let result = await fetch(`https:/localhost:5001/api/friends?id=${id}&connectionStatus=${status}`, {
             method: "PUT"
         })
@@ -85,7 +84,7 @@ class TopBar extends React.Component {
         let response = await fetch(`https://localhost:5001/api/users/query?query=${value}`)
         let results = await response.json();
 
-        console.log(results.body)
+        console.log(`dsfdsfsddfs` + JSON.stringify(results))
 
         this.setState({ isLoading: false, results })
     }

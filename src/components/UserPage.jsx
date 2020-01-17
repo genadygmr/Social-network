@@ -12,6 +12,7 @@ export default class UserPage extends React.Component {
         userData: {},
         friends: [],
         pendingFriends: [],
+        currentPageFriends: [],
         modalOpen: false
     }
 
@@ -20,6 +21,7 @@ export default class UserPage extends React.Component {
         this.setState({ userData })
         await this.setFriends()
         await this.setFriends(true)
+        await this.getCUrrentPageFriends()
     }
 
     setFriends = async (pending = false) => {
@@ -29,12 +31,21 @@ export default class UserPage extends React.Component {
         else res = await fetch(`https://localhost:5001/api/friends?id=${localStorage.getItem("id")}&status=1`);
 
         if (res.ok) {
-            if(pending) {
+            if (pending) {
                 let pendingFriends = await res.json();
                 this.setState({ pendingFriends })
             } else {
                 let friends = await res.json();
-                this.setState({ friends })            }
+                this.setState({ friends })
+            }
+        }
+    }
+
+    getCUrrentPageFriends = async () => {
+        let res = await fetch(`https://localhost:5001/api/friends?id=${this.state.id}&status=1`);
+        if (res.ok) {
+            let currentPageFriends = res.json();
+            this.setState({ currentPageFriends })
         }
     }
 
@@ -72,7 +83,7 @@ export default class UserPage extends React.Component {
     }
 
     feedList = () => {
-        let isFriend = this.state.friends.includes(localStorage.getItem)
+        let isFriend = true //this.state.currentPageFriends.map(friends => friends.id).includes(localStorage.getItem("id"))
         if (this.state.id == localStorage.getItem("id") || isFriend) {
             return (
                 <Grid.Column width={9}>
